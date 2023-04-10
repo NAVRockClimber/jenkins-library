@@ -1,7 +1,7 @@
 def call() {
     
     pipeline {
-        agent {kubernetes}
+        agent kubernetes
         stages {
             stage("hello") {
                 steps {
