@@ -1,14 +1,28 @@
 def call() {
-    
     pipeline {
-        agent kubernetes
+        agent {
+            kubernetes {
+                yaml '''
+                    apiVersion: v1
+                    kind: Pod
+                    spec:
+                      containers:
+                      - name: bash
+                        image: bash:latest
+                        command:
+                        - cat
+                        tty: true
+                    '''
+            }
+        }
         stages {
-            stage("hello") {
+            stage('hello') {
                 steps {
-                    sh "echo hello world"
+                    container('bash') {
+                        sh 'echo hello world'
+                    }
                 }
             }
-
         }
     }
 }
